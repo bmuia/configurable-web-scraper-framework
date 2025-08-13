@@ -1,0 +1,72 @@
+[
+  {
+    "title": "Acer Aspire 3 A315-31 Black",
+    "price": "$391.48",
+    "description": "Acer Aspire 3 A315-31 Black, 15.6\" HD, Pentium N4200 1.1GHz, 4GB, 128GB SSD, Windows 10 Home",
+    "reviews": "10",
+    "stars": 4
+  },
+  {
+    "title": "Acer Aspire 3 A315-21",
+    "price": "$393.88",
+    "description": "Acer Aspire 3 A315-21, 15.6\", AMD A4-9120. 4GB. 128GB SSD, Linux",
+    "reviews": "9",
+    "stars": 3
+  },
+  {
+    "title": "Asus VivoBook Max",
+    "price": "$399",
+    "description": "Asus VivoBook Max X541NA-GQ041 Black Chocolate, 15.6\" HD, Pentium N4200 1.1GHz, 4GB, 500GB, Windows 10 Home",
+    "reviews": "4",
+    "stars": 1
+  },
+  {
+    "title": "Asus VivoBook E502NA-GO022T Dark Blue",
+    "price": "$399.99",
+    "description": "Asus VivoBook E502NA-GO022T Dark Blue, 15.6\" HD, Pentium N4200 1.1GHz, 4GB, 128GB SSD, Windows 10 Home, En/Ru kbd",
+    "reviews": "3",
+    "stars": 4
+  },
+  {
+    "title": "Lenovo ThinkPad E31-80",
+    "price": "$404.23",
+    "description": "Lenovo ThinkPad E31-80, 13.3\" HD, Celeron 3855U 1.6GHz, 4GB, 128GB SSD, Windows 10 Home",
+    "reviews": "12",
+    "stars": 1
+  },
+  {
+    "title": "Acer Aspire 3 A315-31 Black",
+    "price": "$408.98",
+    "description": "Acer Aspire 3 A315-31 Black, 15.6\" HD, Pentium N4200 1.1GHz, 4GB, 128GB SSD, Windows 10 Home",
+    "reviews": "10",
+    "stars": 4
+  },
+  {
+    "title": "Lenovo V110-15ISK",
+    "price": "$409.63",
+    "description": "Lenovo V110-15ISK, 15.6\" HD, Core i3-6006U, 8GB, 128GB SSD, Windows 10 Home",
+    "reviews": "9",
+    "stars": 3
+  },
+  {
+    "title": "Acer Aspire ES1-732 Black",
+    "price": "$410.46",
+    "description": "Acer Aspire ES1-732 Black, 17.3\" HD+, Celeron, N3350, 4GB, 1TB, Windows 10 Home",
+    "reviews": "14",
+    "stars": 4
+  },
+  {
+    "title": "Asus VivoBook 15 X540NA-GQ026T",
+    "price": "$410.66",
+    "description": "Asus VivoBook 15 X540NA-GQ026T Chocolate Black, 15.6\" HD, Pentium N4200, 4GB, 128GB SSD, Windows 10 Home, En/Ru kbd",
+    "reviews": "4",
+    "stars": 4
+  },
+  {
+    "title": "Packard 255 G2",
+    "price": "$416.99",
+    "description": "15.6\", AMD E2-3800 1.3GHz, 4GB, 500GB, Windows 8.1",
+    "reviews": "2",
+    "stars": 2
+  }
+]
