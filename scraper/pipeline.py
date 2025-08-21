@@ -1,22 +1,30 @@
-import os
-import json
-import csv
+from scraper.framework import WebScraper
+from config.config_utils import open_configuration_file
+from scraper.data_exporter import save_file_results
+
+def run_pipeline():
+    """Run all scrapers from YAML configuration and return results."""
+    configuration = open_configuration_file()
+    scrapers_config = configuration.get('scrapers', [])
+    all_results = {}
+
+    for scraper_conf in scrapers_config:
+        scraper = WebScraper(
+            url=scraper_conf['base_url'],
+            item_container_selector=scraper_conf['item_container_selector'],
+            fields=scraper_conf['fields'],
+            max_attempts=scraper_conf.get('max_retries', 5),
+            back_off=scraper_conf.get('back_off', 2)
+        )
+
+        results = scraper.run()
+        all_results[scraper_conf['name']] = results
+        print(f"[INFO] Scraped {scraper_conf['name']} → {len(results)} items")
+
+        output_config = scraper_conf.get('output')
+        if output_config:
+            save_file_results(results, output_config)
+
+    return all_results
 
 
-def save_as_json(results, filename="output/results.json"):
-    os.makedirs(os.path.dirname(filename), exist_ok=True)
-    with open(filename, "w", encoding="utf-8") as f:
-        json.dump(results, f, indent=4, ensure_ascii=False)
-
-
-def save_as_csv(results, filename="output/results.csv"):
-    os.makedirs(os.path.dirname(filename), exist_ok=True)
-    if not results:
-        print("[WARN] No results to save.")
-        return
-
-    with open(filename, "w", newline="", encoding="utf-8") as f:
-        fieldnames = results[0].keys()
-        writer = csv.DictWriter(f, fieldnames=fieldnames)
-        writer.writeheader()
-        writer.writerows(results)

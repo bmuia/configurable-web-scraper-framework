@@ -1,0 +1,37 @@
+scrapers:
+  - name: "Books To Scrape"
+    base_url: "https://books.toscrape.com/"
+    max_retries: 3
+    back_off: 2
+    item_container_selector: ".product_pod"
+    fields:
+      - name: title
+        selector: "h3 a"
+      - name: price
+        selector: ".price_color"
+      - name: rating
+        selector: ".star-rating"
+
+    output:
+      type: csv
+      path: "data/books.csv"
+ 
+
+  - name: "Another Example Site"
+    base_url: "https://example.com/products"
+    max_retries: 2
+    back_off: 1
+    item_container_selector: ".product-item"
+    fields:
+      - name: product_name
+        selector: ".product-title"
+      - name: product_price
+        selector: ".price"
+      - name: product_stock
+        selector: ".availability"
+
+    output:
+      type: csv
+      path: "data/books.csv"
+
+
