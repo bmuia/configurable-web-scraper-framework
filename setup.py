@@ -13,7 +13,7 @@ setup(
     python_requires='>=3.10',
     entry_points={
         "console_scripts": [
-            "belam=scraper.cli:main",  
+            "scraper=scraper.cli:main",  
         ],
     },
 )

@@ -1,47 +1,53 @@
 # Configurable Web Scraper Framework
 
-A fully **YAML-driven, modular web scraping framework** in Python. This framework allows you to scrape multiple websites with configurable fields, supports dynamic output formats (JSON, CSV), and can be extended to databases or dashboards.
+## Introduction
 
----
+This project is a modern web scraper that extracts data from websites using a YAML-based configuration. Users specify the data they want to scrape through the configuration file.
 
 ## Features
 
-* **YAML Configuration** – Define multiple scrapers, fields, selectors, and output options easily.
-* **Dynamic Field Parsing** – Extract multiple fields per site, including text and HTML attributes (`href`, `src`, `class`).
-* **Multi-Site Support** – Run scrapers for multiple websites in a single pipeline.
-* **Flexible Output** – Save results to JSON or CSV automatically.
-* **Retry & Back-Off** – Handles temporary network errors.
-* **CLI Integration** – Run scrapers using a single command (`belam run`).
-* **Modular & Extensible** – Separate components for fetching, parsing, exporting, and pipeline management.
-
----
+1. Full YAML configuration
+2. Modular and efficient architecture
+3. Command-line integration
+4. Fetching data from websites
+5. Retry and backoff strategies
 
 ## Project Structure
 
+```bash
+|-- data
+|   -- {name provided in config}.csv
+|   -- {name provided in config}.json
+|-- scraper
+|   |-- __init__.py           # Turns the scraper directory into a Python package
+|   |-- cli.py                # Handles CLI commands for the scraper
+|   |-- pipeline.py           # Manages the overall scraping pipeline
+|   |-- framework.py          # Provides scraper functionality
+|   |-- data_exporter.py      # Handles data export functionality
+|   |-- fetcher.py            # Handles fetching web pages
+|   |-- parser.py             # Handles parsing of web pages
+|-- config
+|   |-- __init__.py           # Turns the config directory into a Python package
+|   |-- config_utils.py       # Provides helper functions for configuration
+|   |-- config.yaml           # Main configuration file for the scraper
+|-- tests
+|   |-- __init__.py           # Turns the test directory into a Python package
+|   |-- test_fetcher.py       # Unit tests for the fetcher module
+|-- __init__.py               # Turns entire scraper into a Python package
+|-- .gitignore                # Defines ignored files for Git
+|-- Jenkinsfile               # Jenkins pipeline configuration
+|-- requirements.txt          # Python dependencies
+|-- setup.py                  # Packaging and installation script
 ```
-configurable-web-scraper-framework/
-│
-├── config/
-│   ├── config.yaml            # YAML configuration for all scrapers
-│   └── config_utils.py        # Utility to load YAML configuration
-│
-├── scraper/
-│   ├── framework.py           # WebScraper class
-│   ├── fetcher.py             # fetch_url() function
-│   ├── parser.py              # parse_scraper() function
-│   ├── data_exporter.py       # save_file_results() function
-│   ├── pipeline.py            # run_pipeline() function
-│   └── cli.py                 # CLI entry point
-│
-├── setup.py                   # Package installation
-├── requirements.txt           # Dependencies
-├── LICENSE                     # MIT License
-└── README.md
-```
-
----
 
 ## Installation
+
+To install this scraper locally, you need:
+
+* Python 3.7 or higher
+* pip (Python package installer)
+
+Run the following commands:
 
 1. Clone the repository:
 
@@ -50,11 +56,10 @@ git clone https://github.com/bmuia/configurable-web-scraper-framework.git
 cd configurable-web-scraper-framework
 ```
 
-2. Create a virtual environment:
+2. Install the required packages:
 
 ```bash
-python3 -m venv myenv
-source myenv/bin/activate
+pip install -r requirements.txt
 ```
 
 3. Install the package:
@@ -63,115 +68,88 @@ source myenv/bin/activate
 pip install -e .
 ```
 
-Dependencies (installed via `setup.py`):
-
-* `requests>=2.31.0`
-* `beautifulsoup4>=4.12.0`
-
----
-
-## YAML Configuration
-
-Example `config/config.yaml`:
-
-```yaml
-scrapers:
-  - name: "Books To Scrape"
-    base_url: "https://books.toscrape.com/"
-    max_retries: 3
-    back_off: 2
-    item_container_selector: ".product_pod"
-    fields:
-      - name: title
-        selector: "h3 a"
-        attribute: "text"
-      - name: price
-        selector: ".price_color"
-        attribute: "text"
-      - name: rating
-        selector: ".star-rating"
-        attribute: "class"
-    output:
-      type: csv
-      path: "results/books.csv"
-```
-
-* `fields` – List of dictionaries with `name`, `selector`.
-* `output` – Defines type (`json` or `csv`) and save path.
-
----
+That's it!
 
 ## Usage
 
-### Run via CLI
+1. Open the configuration file:
 
 ```bash
-belam run
+config/config.yaml
 ```
 
-* Scrapes all sites in `config.yaml` and saves results according to output settings.
-
-### Run via Python Script
-
-```python
-from scraper.pipeline import run_pipeline
-
-results = run_pipeline()
-print(results)
-```
-
----
-
-## Adding New Scrapers
-
-1. Open `config/config.yaml`.
-2. Add a new scraper under `scrapers:`:
+2. Modify the configuration under `scrapers`:
 
 ```yaml
-  - name: "New Site"
-    base_url: "https://example.com/products"
-    item_container_selector: ".product-item"
-    fields:
-      - name: product_name
-        selector: ".title"
-      - name: price
-        selector: ".price"
-    output:
-      type: json
-      path: "results/newsite.json"
+- name: "Books To Scrape"
+  base_url: "https://books.toscrape.com/"
+  max_retries: 3
+  back_off: 2
+  item_container_selector: ".product_pod"
+  fields:
+    - name: title
+      selector: "h3 a"
+    - name: price
+      selector: ".price_color"
+    - name: rating
+      selector: ".star-rating"
+  output:
+    type: csv
+    path: "data/books.csv"
 ```
 
-3. Run `belam run` – no code changes needed.
+**Note:** Adjust selectors to match the website’s structure. You can add multiple YAML configurations for different websites, pages, or data types.
 
----
+3. Run the scraper:
 
-## Extending the Framework
+```bash
+# Run without printing results to the console
+scraper run
+```
 
-* **Pagination support** – Extend `WebScraper` or `pipeline.py` for multiple pages.
-* **Database support** – Replace file-based saving with PostgreSQL, MongoDB, or SQLite.
-* **Dashboard integration** – Connect the database to Grafana, Metabase, or Kibana.
-* **Custom fetchers** – Add headers, cookies, or proxies in `fetch_url()`.
+```bash
+# Run and print results to the console
+scraper run --verbose
+```
 
----
+4. Check the output:
+   Scraped data will appear in the `data` directory in the specified format (CSV or JSON).
 
-## Error Handling & Logging
+## Sample Output
 
-* Missing selectors log a warning and skip that field.
-* Network retries and back-off reduce temporary failures.
-* Parser exceptions are caught and logged without stopping the pipeline.
+Here are some examples of the scraper running with and without the verbose flag, and the data directory:
 
----
+* Without verbose:
+  ![scraper-output](images/scraper-running-without-verbose.png)
+* With verbose:
+  ![scraper-verbose-output](images/scraper-running-with-verbose.png)
+* Data directory:
+  ![data-directory-output](images/sample-result.png)
+
+## Troubleshooting
+
+If you encounter issues:
+
+1. Ensure the target website is accessible and not blocking requests.
+2. Verify that selectors in the configuration file match the website structure (use browser developer tools).
+3. Check logs for error messages or stack traces.
+4. Reach out to me ([belam](mailto:belammuia0@gmail.com)) or open a GitHub issue.
 
 ## Contributing
 
-1. Fork the repository.
-2. Create a new branch: `git checkout -b feature/my-feature`.
-3. Make your changes.
-4. Test the framework.
-5. Submit a pull request with a clear description.
+Contributions are welcome! Submit a pull request or open an issue.
 
----
+## Resources
+
+* [Requests](https://docs.python-requests.org/en/master/) for handling HTTP requests.
+* [Beautiful Soup](https://www.crummy.com/software/BeautifulSoup/bs4/doc/) for parsing HTML and XML documents.
+* [PyYAML](https://pyyaml.org/) for YAML parsing and serialization.
 
 ## License
 
-MIT License – free to use, modify, and distribute.
+This project is licensed under the MIT License – see the [LICENSE](LICENSE) file for details.
+
+## Conclusion
+
+This configurable web scraper framework is designed for flexibility and ease of use. With its modular architecture and YAML configuration, you can quickly set up and run scrapers for different websites and data types.
+Happy scraping!

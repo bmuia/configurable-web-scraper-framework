@@ -1,4 +1,7 @@
 from bs4 import BeautifulSoup
+from rich.console import Console
+
+console = Console()
 
 def parse_scraper(response, item_container_selector, fields):
     """
@@ -25,7 +28,10 @@ def parse_scraper(response, item_container_selector, fields):
                     item[name] = element.get_text(strip=True)
 
                 else:
-                    print(f"[ERROR] Selector '{selector}' not found for field '{name}'")
+                    console.print(
+                        f"[bold red]❌ ERROR:[/bold red] "
+                        f"Selector '[cyan]{selector}[/cyan]' not found for field '[yellow]{name}[/yellow]'"
+                    )
 
             if item: 
                 results.append(item)
@@ -33,5 +39,5 @@ def parse_scraper(response, item_container_selector, fields):
         return results
 
     except Exception as e:
-        print(f"[ERROR] Failed to parse scraper: {e}")
+        console.print(f"[bold red]❌ ERROR:[/bold red] Failed to parse scraper: [white]{e}[/white]")
         return []
